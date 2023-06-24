@@ -3,7 +3,7 @@ package com.example.demo.user;
 import java.util.Date;
 
 public class User {
-    private int id;
+    private Integer id;
     private String name;
     private Date dateOfBirth;
 
@@ -13,7 +13,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

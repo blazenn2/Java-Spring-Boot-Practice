@@ -23,10 +23,12 @@ public class UserDaoService {
     }
 
     public User save(User user) {
-//        if (user.getId() == null) {
-//            this.idCount++;
-//            user.setId(idCount);
-//        }
+        System.out.println(user.toString());
+        if (user.getId() == null || user.getId() <= 0) {
+            this.idCount++;
+            user.setId(idCount);
+            System.out.println();
+        }
         this.users.add(user);
         return user;
     }
