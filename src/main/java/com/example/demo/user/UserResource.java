@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.example.demo.exceptions.InvalidUserCreationException;
 import com.example.demo.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,8 @@ public class UserResource {
 
     @PostMapping(path = "/users")
     public ResponseEntity createUser(@RequestBody User user) {
+        if (user.getName() == null || user.getName().length() == 0) throw new InvalidUserCreationException("Invalid request, add a proper key-value pair of name");
+        if (user.getDateOfBirth() == null) throw new InvalidUserCreationException("Invalid request, add a proper key-value pair of date");
         User newUser = service.save(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(location).build();
