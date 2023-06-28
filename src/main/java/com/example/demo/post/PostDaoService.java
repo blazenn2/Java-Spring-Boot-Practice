@@ -43,4 +43,8 @@ public class PostDaoService {
     public Post getASinglePostOfUser(int postId, int userId) {
         return posts.stream().filter(post -> post.getId() == postId && post.getUserId() == userId).findFirst().orElse(null);
     }
+
+    public Post findASinglePost(int postId) {
+        return posts.stream().filter(post -> post.getId() == postId).findFirst().orElse(null);
+    }
 }
