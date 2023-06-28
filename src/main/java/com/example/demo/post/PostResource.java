@@ -4,8 +4,12 @@ import com.example.demo.exceptions.PostNotFoundException;
 import com.example.demo.exceptions.UserNotExistsException;
 import com.example.demo.user.UserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,9 +36,10 @@ public class PostResource {
     }
 
     @PostMapping(path = "/users/{id}/posts")
-    public List<Post> addPostOfUser(@PathVariable int id,@RequestBody Post post) {
+    public ResponseEntity addPostOfUser(@PathVariable int id, @RequestBody Post post) {
         if (post.getUserId() == null) post.setUserId(id);
-        return service.addPostOfUser(post);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping(path = "/users/{id}/posts/{post_id}")
