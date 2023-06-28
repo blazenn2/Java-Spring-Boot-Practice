@@ -39,4 +39,12 @@ public class UserResource {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping(path = "/users/{id}")
+    public ResponseEntity deleteUser(@PathVariable int id) {
+        User user = service.deleteUser(id);
+        if (user == null) throw new UserNotFoundException("id-" + id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.noContent().build();
+    }
 }
