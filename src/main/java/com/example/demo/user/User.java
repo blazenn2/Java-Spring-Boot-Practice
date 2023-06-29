@@ -1,10 +1,15 @@
 package com.example.demo.user;
 
+import jakarta.validation.constraints.Past;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Date;
 
 public class User {
     private Integer id;
+    @Length(min=2)
     private String name;
+    @Past
     private Date dateOfBirth;
 
     public User(int id, String name, Date dateOfBirth) {
