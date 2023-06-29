@@ -7,9 +7,9 @@ import java.util.Date;
 
 public class User {
     private Integer id;
-    @Length(min=2)
+    @Length(min=2,message = "Name should be greater than 2 characters")
     private String name;
-    @Past
+    @Past(message = "Birth date should be a past value")
     private Date dateOfBirth;
 
     public User(int id, String name, Date dateOfBirth) {
