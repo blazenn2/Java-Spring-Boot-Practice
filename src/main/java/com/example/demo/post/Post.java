@@ -1,6 +1,7 @@
 package com.example.demo.post;
 
 public class Post {
+
     private Integer id;
     private Integer userId;
     private String postTitle;

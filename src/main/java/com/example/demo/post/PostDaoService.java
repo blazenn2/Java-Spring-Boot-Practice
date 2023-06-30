@@ -16,7 +16,7 @@ public class PostDaoService {
         posts.add(new Post(3, 1, "Eid mubarak!", "Eid mubarak to everyone <3"));
         posts.add(new Post(4, 2, "Hello World", "This is hello world from spring boot!"));
         posts.add(new Post(5, 1, "JS vs Java?", "Who will win? Java or Javascript?"));
-        posts.add(new Post(6, 1, "Du Bliest!", "I am German ... haha :D"));
+        posts.add(new Post(6, 1, "Du Bluest!", "I am German ... haha :D"));
     }
 
     public List getAllPosts() {
