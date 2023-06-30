@@ -3,14 +3,20 @@ package com.example.demo.post;
 import com.example.demo.exceptions.PostNotFoundException;
 import com.example.demo.exceptions.UserNotExistsException;
 import com.example.demo.user.UserDaoService;
+import com.example.demo.user.User;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.github.shihyuho.jackson.databind.SerializeAllExcept;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class PostResource {
@@ -25,8 +31,25 @@ public class PostResource {
     }
 
     @GetMapping(path = "/posts")
-    public List<Post> getAllPosts() {
-        return service.getAllPosts();
+    public MappingJacksonValue getAllPosts() {
+        List<Post> posts = service.getAllPosts();
+        List<Map<String, Object>> newResult = new ArrayList<>();
+        Iterator<Post> iterate = posts.iterator();
+        while (iterate.hasNext()) {
+            Post post = iterate.next();
+            User user = userService.findOne(post.getUserId());
+            Map<String, Object> postUserMap = new HashMap<>();
+            postUserMap.put("postInformation", post);
+            postUserMap.put("userInformation", user);
+            newResult.add(postUserMap);
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("posts", newResult);
+        FilterProvider filters = new SimpleFilterProvider().addFilter("UserFilter", SimpleBeanPropertyFilter.filterOutAllExcept("name", "dateOfBirth"));
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(response);
+        mappingJacksonValue.setFilters(filters);
+        return mappingJacksonValue;
+//        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping(path = "/users/{id}/posts")
