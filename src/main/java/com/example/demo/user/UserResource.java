@@ -19,10 +19,18 @@ interface Response{
 
 @RestController
 public class UserResource {
-    @Autowired
-    private UserDaoService service;
+//    @Autowired
+//    private UserDaoService services;
+//
+//    public UserResource(UserDaoService service) {
+//        this.service = service;
+//    }
 
-    public UserResource(UserDaoService service) {
+
+
+    private UserJdbcDaoService service;
+
+    public UserResource(UserJdbcDaoService service) {
         this.service = service;
     }
 
