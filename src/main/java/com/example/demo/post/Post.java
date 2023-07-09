@@ -1,10 +1,19 @@
 package com.example.demo.post;
 
-public class Post {
+import com.fasterxml.jackson.annotation.JsonFilter;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
+
+@JsonFilter("PostFilter")
+public class Post {
     private Integer id;
+    @NotNull
     private Integer userId;
+    @Length(min = 3, message = "Length should be greater than 3")
     private String postTitle;
+    @NotBlank(message = "Post message cannot be blank")
     private String postMessage;
 
     public Post(Integer id, Integer userId, String postTitle, String postMessage) {

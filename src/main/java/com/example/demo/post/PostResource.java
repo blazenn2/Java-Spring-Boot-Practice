@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.github.shihyuho.jackson.databind.SerializeAllExcept;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class PostResource {
     }
 
     @PostMapping(path = "/users/{id}/posts")
-    public ResponseEntity addPostOfUser(@PathVariable int id, @RequestBody Post post) {
+    public ResponseEntity addPostOfUser(@PathVariable int id,@Valid @RequestBody Post post) {
         if (post.getUserId() == null) post.setUserId(id);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
         return ResponseEntity.created(location).build();
