@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
-@JsonFilter("PostFilter")
+//@JsonFilter("PostFilter")
 public class Post {
     private Integer id;
     @NotNull

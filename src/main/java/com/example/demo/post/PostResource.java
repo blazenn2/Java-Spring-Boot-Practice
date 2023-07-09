@@ -4,6 +4,7 @@ import com.example.demo.exceptions.PostNotFoundException;
 import com.example.demo.exceptions.UserNotExistsException;
 import com.example.demo.user.UserDaoService;
 import com.example.demo.user.User;
+import com.example.demo.user.UserJdbcDaoService;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -21,12 +22,22 @@ import java.util.*;
 
 @RestController
 public class PostResource {
-    @Autowired
-    private PostDaoService service;
-    @Autowired
-    private UserDaoService userService;
+//    @Autowired
+//    private PostDaoService service;
+//    @Autowired
+//    private UserDaoService userService;
+//
+//    public PostResource(PostDaoService service, UserDaoService userService) {
+//        this.service = service;
+//        this.userService = userService;
+//    }
 
-    public PostResource(PostDaoService service, UserDaoService userService) {
+    @Autowired
+    private final PostJdbcDaoService service;
+    @Autowired
+    private final UserJdbcDaoService userService;
+
+    public PostResource(PostJdbcDaoService service, UserJdbcDaoService userService) {
         this.service = service;
         this.userService = userService;
     }
@@ -60,10 +71,12 @@ public class PostResource {
     }
 
     @PostMapping(path = "/users/{id}/posts")
-    public ResponseEntity addPostOfUser(@PathVariable int id,@Valid @RequestBody Post post) {
+    public List addPostOfUser(@PathVariable int id,@Valid @RequestBody Post post) {
         if (post.getUserId() == null) post.setUserId(id);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
-        return ResponseEntity.created(location).build();
+        List posts = service.addPostOfUser(post);
+        return posts;
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
+//        return ResponseEntity.created(location).build();
     }
 
     @GetMapping(path = "/users/{id}/posts/{post_id}")
