@@ -49,8 +49,11 @@ public class UserJdbcDaoService {
 
     public User findOne(Integer id) {
         String sql = "SELECT * FROM users WHERE id=?";
-        User user = jdbcTemplate.queryForObject(sql, new Object[]{id}, UserJdbcDaoService::mapRow);
-        return user;
+        List user = jdbcTemplate.query(sql, new Object[]{id}, UserJdbcDaoService::mapRow);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return (User) user.get(0);
     }
 
 }
