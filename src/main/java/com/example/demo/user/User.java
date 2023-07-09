@@ -1,13 +1,21 @@
 package com.example.demo.user;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 
 @JsonFilter("UserFilter")
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue
     private Integer id;
     @Length(min=2,message = "Name should be greater than 2 characters")
     private String name;
