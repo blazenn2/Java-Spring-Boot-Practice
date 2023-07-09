@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 
-//@JsonFilter("UserFilter")
+@JsonFilter("UserFilter")
 public class User {
     private Integer id;
     @Length(min=2,message = "Name should be greater than 2 characters")
